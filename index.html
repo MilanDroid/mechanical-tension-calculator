@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Archivo con los estilos utilizados para la apariencia del aplicativo -->
+    <link rel="stylesheet" href="resources/styles.css">
+    <!-- Archivo donde se ejecuta el procesamiento de datos -->
+    <script src="resources/index.js"></script>
+
+    <title>Calculo mecanico de conductores</title>
+</head>
+<body>
+    <div class="titulo" align="left">Calculo mecanico de conductores</div>
+    <div align="center">
+        <table>
+            <tr>
+                <td class="columns orange-cell" colspan="3">
+                    <span>Ingrese las caracter&iacute;sticas del conductor:</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div align="right">
+                        <span>Di&aacute;metro (mm): </span>
+                        <input type="text" id="diametro">
+                    </div>
+                </td>
+                <td>
+                    <div align="right">
+                        <span>Secci&oacute;n (mm^2): </span>
+                        <input type="text" id="seccion">
+                    </div>
+                </td>
+                <td>
+                    <div align="right">
+                        <span>Peso conductor (Kg/m):</span>
+                        <input type="text" id="pesoConductor">
+                    </div>
+                </td>
+            </tr>
+            <tr>                
+                <td>
+                    <div align="right">
+                        <span>Carga de Rotura (kg): </span>
+                        <input type="text" id="cargaRotura">
+                    </div>
+                </td>
+                <td>
+                    <div align="right">
+                        <span>M&oacute;dulo de elasticidad (kg/mm^2): </span>
+                        <input type="text" id="moduloElasticidad">
+                    </div>
+                </td>
+                <td>
+                    <div align="right">
+                        <span>Coeficiente de dilataci&oacute;n: </span>
+                        <input type="text" id="coeficienteDilatacion">
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <table>
+            <tr>
+                <td class="columns orange-cell" colspan="3">
+                    <span>Ingrese las caracter&iacute;sticas de la l&iacute;nea:</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div align="center">
+                        <span>Altitud (msnm): </span>
+                        <input type="text" id="altitud">
+                    </div>
+                </td>
+                <td>
+                    <div align="center">
+                        <span>Vano Promedio: </span>
+                        <input type="text" id="vano">
+                    </div>
+                </td>
+                <td>
+                    <div align="center">
+                        Conductor: <input type="radio" name="tipoCable" value="conductor" checked="checked">
+                        Cable de tierra: <input type="radio" name="tipoCable" value="tierra">
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div align="left">
+        <input type="button" class="load" onclick="main();" value="Procesar">
+        <input type="button" class="clean" onclick="limpiar();" value="Limpiar">
+    </div>
+    <div align="center">
+        <table>
+            <tr>
+                <td class="titles" colspan="6" align="center">RESULTADOS</td>
+            </tr>
+            <tr>
+                <td class="columns" rowspan="2">HIPOTESIS DE CALCULO</td>
+                <td class="columns" rowspan="2">TENSIONES (kg)</td>
+                <td class="columns" rowspan="2">COEFICIENTES DE SEGURIDAD</td>
+                <td class="columns" colspan="2">FLECHAS (m)</td>
+                <td class="columns" rowspan="2">OBSERVACIONES</td>
+            </tr>
+            <tr>
+                <td class="sub-columns">Vertical</td>
+                <td class="sub-columns">Inclinada</td>
+            </tr>
+            <tr>
+                <td>
+                    <p>
+                        <b><span id="hipotesisX">X</span>)</b> <span id="temperaturaHipotesisX">##</span>
+                    </p>
+                </td>
+                <td id="tensionX">tensionX</td>
+                <td id="coeficienteX">coeficienteX</td>
+                <td id="flechaVX">flechaVX</td>
+                <td id="flechaIX">flechaIX</td>
+                <td id="observacionX"></td>
+            </tr>
+            <tr>
+                <td>
+                    <p>
+                        <span><b>D)</b> 15°C. Viento</span>
+                    </p>
+                </td>
+                <td id="tensionD">tensionD</td>
+                <td id="coeficienteD">coeficienteD</td>
+                <td id="flechaVD">flechaVD</td>
+                <td id="flechaID">flechaID</td>
+                <td id="observacionD"></td>
+            </tr>
+            <tr>
+                <td>
+                    <p>
+                        <span><b>E)</b> 50°C. Sin sobrecarga</span>
+                    </p>
+                </td>
+                <td id="tensionE">tensionE</td>
+                <td id="coeficienteE">coeficienteE</td>
+                <td id="flechaVE">flechaVE</td>
+                <td id="flechaIE">flechaIE</td>
+                <td id="observacionE"></td>
+            </tr>
+            <tr>
+                <td>
+                    <p>
+                        <span><b>F)</b> 0°C. Hielo</span>
+                    </p>
+                </td>
+                <td id="tensionF">tensionF</td>
+                <td id="coeficienteF">coeficienteF</td>
+                <td id="flechaVF">flechaVF</td>
+                <td id="flechaIF">flechaIF</td>
+                <td id="observacionF"></td>
+            </tr>
+            <tr>
+                <td>
+                    <p>
+                        <span><b>G)</b> 15°C. Sin sobrecarga</span>
+                    </p>
+                </td>
+                <td id="tensionG">tensionG</td>
+                <td id="coeficienteG">coeficienteG</td>
+                <td id="flechaVG">flechaVG</td>
+                <td id="flechaIG">flechaIG</td>
+                <td>
+                    <div><b>TCD</b> = <span id="tcd"></span></div>
+                    <div id="observacionG"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>
+                        <span><b>H)</b> -5°C. Sin sobrecarga</span>
+                    </p>
+                </td>
+                <td id="tensionH">tensionH</td>
+                <td id="coeficienteH">coeficienteH</td>
+                <td id="flechaVH">flechaVH</td>
+                <td id="flechaIH">flechaIH</td>
+                <td>
+                    <div><b>THF</b> = <span id="thf"></span></div>
+                    <div id="observacionH"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>
+                        <span><b>I)</b> -20°C. Sin sobrecarga</span>
+                    </p>
+                </td>
+                <td id="tensionI">tensionI</td>
+                <td id="coeficienteI">coeficienteI</td>
+                <td id="flechaVI">flechaVI</td>
+                <td id="flechaII">flechaII</td>
+                <td id="observacionI"></td>
+            </tr>
+            <tr>
+                <td>
+                    <p>
+                        <span><b>J)</b> -5°C. Viento</span>
+                    </p>
+                </td>
+                <td id="tensionJ">tensionJ</td>
+                <td id="coeficienteJ">coeficienteJ</td>
+                <td id="flechaVJ">flechaVJ</td>
+                <td id="flechaIJ">flechaIJ</td>
+                <td id="observacionJ"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
