@@ -50,3 +50,7 @@ There's no build step. Clone the repository and open `index.html` in a browser.
 | `index.html` | The form and the results table |
 | `resources/index.js` | The calculations, including the cubic solver |
 | `resources/styles.css` | Styles |
+
+## License
+
+MIT. See [LICENSE](LICENSE).
